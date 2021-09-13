@@ -33,12 +33,16 @@
                     <thead>
                     <tr>
                         <th scope="col">Названия</th>
+                        <th scope="col">Описание</th>
+                        <th scope="col">Дата размещения</th>
                     </tr>
                     </thead>
                     <tbody>
                     <% for (Post post : Store.instOf().findAllPosts()) { %>
                     <tr>
                         <td><%= post.getName() %></td>
+                        <td><%= post.getDescription() %></td>
+                        <td><%= post.getCreated() %></td>
                     </tr>
                     <% } %>
                     </tbody>
