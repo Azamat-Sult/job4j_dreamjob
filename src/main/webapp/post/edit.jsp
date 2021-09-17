@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page import="ru.job4j.dream.store.Store" %>
 <%@ page import="ru.job4j.dream.model.Post" %>
 <%@ page import="java.time.LocalDate" %>
+<%@ page import="ru.job4j.dream.store.MemStore" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -26,7 +26,7 @@
     String id = request.getParameter("id");
     Post post = new Post(0, "", "", LocalDate.now());
     if (id != null) {
-        post = Store.instOf().findPostById(Integer.valueOf(id));
+        post = MemStore.instOf().findPostById(Integer.valueOf(id));
     }
 %>
 <div class="container pt-3">

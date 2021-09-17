@@ -4,7 +4,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import ru.job4j.dream.store.Store;
+import ru.job4j.dream.store.MemStore;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -21,7 +21,7 @@ public class PhotoUploadServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String photoFileName = req.getParameter("id") + ".jpg";
-        Store.instOf().findCandidateById(Integer.parseInt(req.getParameter("id"))).setPhoto(photoFileName);
+        MemStore.instOf().findCandidateById(Integer.parseInt(req.getParameter("id"))).setPhoto(photoFileName);
         DiskFileItemFactory factory = new DiskFileItemFactory();
         ServletContext servletContext = this.getServletConfig().getServletContext();
         File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");

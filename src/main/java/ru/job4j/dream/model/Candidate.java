@@ -12,6 +12,12 @@ public class Candidate {
         this.name = name;
     }
 
+    public Candidate(int id, String name, String photo) {
+        this.id = id;
+        this.name = name;
+        this.photo = photo;
+    }
+
     public int getId() {
         return id;
     }
@@ -51,5 +57,10 @@ public class Candidate {
     @Override
     public int hashCode() {
         return Objects.hash(id, name);
+    }
+
+    @Override
+    public String toString() {
+        return "Candidate{ " + "id=" + id + ", name='" + name + "', photo='" + photo + "' }";
     }
 }
