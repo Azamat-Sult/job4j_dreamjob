@@ -14,7 +14,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class PsqlStore implements Store {
+
+    private static final Logger LOG = LoggerFactory.getLogger(PsqlStore.class.getName());
 
     private final BasicDataSource pool = new BasicDataSource();
 
@@ -53,8 +58,7 @@ public class PsqlStore implements Store {
     public Collection<Post> findAllPosts() {
         List<Post> posts = new ArrayList<>();
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM post")
-        ) {
+             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM post")) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
                     posts.add(new Post(it.getInt("id"),
@@ -64,7 +68,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("EXCEPTION: ", e);
         }
         return posts;
     }
@@ -73,8 +77,7 @@ public class PsqlStore implements Store {
     public Collection<Candidate> findAllCandidates() {
         List<Candidate> candidates = new ArrayList<>();
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM candidate")
-        ) {
+             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM candidate")) {
             try (ResultSet it = ps.executeQuery()) {
                 while (it.next()) {
                     candidates.add(new Candidate(it.getInt("id"),
@@ -83,7 +86,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("EXCEPTION: ", e);
         }
         return candidates;
     }
@@ -108,8 +111,9 @@ public class PsqlStore implements Store {
 
     private Post createPost(Post post) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("INSERT INTO post(name,description,created) VALUES (?,?,?)", PreparedStatement.RETURN_GENERATED_KEYS)
-        ) {
+             PreparedStatement ps =  cn.prepareStatement(
+                     "INSERT INTO post(name,description,created) VALUES (?,?,?)",
+                     PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, post.getName());
             ps.setString(2, post.getDescription());
             ps.setObject(3, post.getCreated());
@@ -120,28 +124,30 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("EXCEPTION: ", e);
         }
         return post;
     }
 
     private void updatePost(Post post) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("UPDATE post SET name = ?, description = ?, created = ? WHERE id = ?")) {
+             PreparedStatement ps =  cn.prepareStatement(
+                     "UPDATE post SET name = ?, description = ?, created = ? WHERE id = ?")) {
             ps.setString(1, post.getName());
             ps.setString(2, post.getDescription());
             ps.setObject(3, post.getCreated());
             ps.setInt(4, post.getId());
             ps.executeUpdate();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("EXCEPTION: ", e);
         }
     }
 
     private Candidate createCandidate(Candidate candidate) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("INSERT INTO candidate(name,photo) VALUES (?,?)", PreparedStatement.RETURN_GENERATED_KEYS)
-        ) {
+             PreparedStatement ps =  cn.prepareStatement(
+                     "INSERT INTO candidate(name,photo) VALUES (?,?)",
+                     PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, candidate.getName());
             ps.setString(2, candidate.getPhoto());
             ps.execute();
@@ -151,20 +157,21 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("EXCEPTION: ", e);
         }
         return candidate;
     }
 
     private void updateCandidate(Candidate candidate) {
         try (Connection cn = pool.getConnection();
-             PreparedStatement ps =  cn.prepareStatement("UPDATE candidate SET name = ?, photo = ? WHERE id = ?")) {
+             PreparedStatement ps =  cn.prepareStatement(
+                     "UPDATE candidate SET name = ?, photo = ? WHERE id = ?")) {
             ps.setString(1, candidate.getName());
             ps.setString(2, candidate.getPhoto());
             ps.setInt(3, candidate.getId());
             ps.executeUpdate();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("EXCEPTION: ", e);
         }
     }
 
@@ -174,7 +181,7 @@ public class PsqlStore implements Store {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement("select * from post where id = " + id)) {
             try (ResultSet resultSet = ps.executeQuery()) {
-                while (resultSet.next()) {
+                if (resultSet.next()) {
                     result = new Post(resultSet.getInt("id"),
                             resultSet.getString("name"),
                             resultSet.getString("description"),
@@ -182,7 +189,7 @@ public class PsqlStore implements Store {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("EXCEPTION: ", e);
         }
         return result;
     }
@@ -193,14 +200,14 @@ public class PsqlStore implements Store {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement("select * from candidate where id = " + id)) {
             try (ResultSet resultSet = ps.executeQuery()) {
-                while (resultSet.next()) {
+                if (resultSet.next()) {
                     result = new Candidate(resultSet.getInt("id"),
                             resultSet.getString("name"),
                             resultSet.getString("photo"));
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error("EXCEPTION: ", e);
         }
         return result;
     }
