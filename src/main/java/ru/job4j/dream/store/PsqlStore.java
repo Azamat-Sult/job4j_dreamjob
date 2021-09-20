@@ -212,12 +212,44 @@ public class PsqlStore implements Store {
     }
 
     @Override
-    public void saveUser(User user) {
-
+    public User saveUser(User user) {
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement(
+                     "INSERT INTO siteuser(email,name,password) VALUES (?,?,?)",
+                     PreparedStatement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, user.getEmail());
+            ps.setString(2, user.getName());
+            ps.setString(3, user.getPassword());
+            ps.execute();
+            try (ResultSet id = ps.getGeneratedKeys()) {
+                if (id.next()) {
+                    user.setId(id.getInt(1));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("EXCEPTION: ", e);
+        }
+        return user;
     }
 
     @Override
     public User findUserByEmail(String userEmail) {
-        return null;
+        User result = null;
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement(
+                     "select * from siteuser where email = '" + userEmail + "'")) {
+            try (ResultSet resultSet = ps.executeQuery()) {
+                if (resultSet.next()) {
+                    result = new User();
+                    result.setId(resultSet.getInt("id"));
+                    result.setName(resultSet.getString("name"));
+                    result.setEmail(resultSet.getString("email"));
+                    result.setPassword(resultSet.getString("password"));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("EXCEPTION: ", e);
+        }
+        return result;
     }
 }

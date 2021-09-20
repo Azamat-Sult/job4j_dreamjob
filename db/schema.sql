@@ -10,3 +10,10 @@ CREATE TABLE if not exists candidate (
    name TEXT,
    photo TEXT
 );
+
+CREATE TABLE if not exists siteUser (
+   id SERIAL PRIMARY KEY,
+   email TEXT,
+   name TEXT,
+   password TEXT
+);

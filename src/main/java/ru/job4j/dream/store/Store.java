@@ -19,7 +19,7 @@ public interface Store {
 
     Candidate findCandidateById(int id);
 
-    void saveUser(User user);
+    User saveUser(User user);
 
     User findUserByEmail(String userEmail);
 }
