@@ -16,6 +16,7 @@ import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.job4j.dream.model.User;
 
 public class PsqlStore implements Store {
 
@@ -208,5 +209,15 @@ public class PsqlStore implements Store {
             LOG.error("EXCEPTION: ", e);
         }
         return result;
+    }
+
+    @Override
+    public void saveUser(User user) {
+
+    }
+
+    @Override
+    public User findUserByEmail(String userEmail) {
+        return null;
     }
 }
