@@ -212,7 +212,7 @@ public class PsqlStore implements Store {
     }
 
     @Override
-    public User saveUser(User user) {
+    public User saveUser(User user) { //upd
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement(
                      "INSERT INTO siteuser(email,name,password) VALUES (?,?,?)",
@@ -233,7 +233,7 @@ public class PsqlStore implements Store {
     }
 
     @Override
-    public User findUserByEmail(String userEmail) {
+    public User findUserByEmail(String userEmail) { //upd
         User result = null;
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement(
