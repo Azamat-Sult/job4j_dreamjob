@@ -2,6 +2,7 @@ package ru.job4j.dream.store;
 
 import ru.job4j.dream.model.Post;
 import ru.job4j.dream.model.Candidate;
+import ru.job4j.dream.model.User;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -9,7 +10,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class MemStore {
+public class MemStore implements Store {
 
     private static final MemStore INST = new MemStore();
 
@@ -22,15 +23,15 @@ public class MemStore {
     private final static AtomicInteger CANDIDATE_ID = new AtomicInteger(4);
 
     private MemStore() {
-        posts.put(1, new Post(1, "Junior Java Job", "Junior", LocalDate.now().minusDays(1)));
-        posts.put(2, new Post(2, "Middle Java Job", "Middle", LocalDate.now().minusDays(2)));
-        posts.put(3, new Post(3, "Senior Java Job", "Senior", LocalDate.now().minusDays(3)));
+        //posts.put(1, new Post(1, "Junior Java Job", "Junior", LocalDate.now().minusDays(1)));
+        //posts.put(2, new Post(2, "Middle Java Job", "Middle", LocalDate.now().minusDays(2)));
+        //posts.put(3, new Post(3, "Senior Java Job", "Senior", LocalDate.now().minusDays(3)));
         //Candidate candidate = new Candidate(1, "Junior Java");
         //candidate.setPhoto("1.jpg");
-        candidates.put(1, new Candidate(1, "Junior Java"));
+        //candidates.put(1, new Candidate(1, "Junior Java"));
         //candidates.put(1, candidate);
-        candidates.put(2, new Candidate(2, "Middle Java"));
-        candidates.put(3, new Candidate(3, "Senior Java"));
+        //candidates.put(2, new Candidate(2, "Middle Java"));
+        //candidates.put(3, new Candidate(3, "Senior Java"));
     }
 
     public static MemStore instOf() {
@@ -65,5 +66,15 @@ public class MemStore {
 
     public Candidate findCandidateById(int id) {
         return candidates.get(id);
+    }
+
+    @Override
+    public User saveUser(User user) {
+        return null;
+    }
+
+    @Override
+    public User findUserByEmail(String userEmail) {
+        return null;
     }
 }

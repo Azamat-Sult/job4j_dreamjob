@@ -16,10 +16,7 @@ public class RegServlet extends HttpServlet {
         String password = req.getParameter("password");
         User dbUser = PsqlStore.instOf().findUserByEmail(email);
         if (dbUser == null) {
-            User newUser = new User();
-            newUser.setEmail(email);
-            newUser.setName(userName);
-            newUser.setPassword(password);
+            User newUser = new User(0, userName, email, password);
             PsqlStore.instOf().saveUser(newUser);
             HttpSession sc = req.getSession();
             sc.setAttribute("user", newUser);

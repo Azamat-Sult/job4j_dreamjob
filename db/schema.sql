@@ -13,7 +13,7 @@ CREATE TABLE if not exists candidate (
 
 CREATE TABLE if not exists siteUser (
    id SERIAL PRIMARY KEY,
-   email TEXT,
+   email TEXT UNIQUE,
    name TEXT,
    password TEXT
 );
