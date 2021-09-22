@@ -20,8 +20,7 @@ public class PostServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        int postId = Integer.parseInt(req.getParameter("id"));
-        Post post = new Post(postId,
+        Post post = new Post(Integer.parseInt(req.getParameter("id")),
                 req.getParameter("name"),
                 req.getParameter("description"),
                 LocalDate.now());
