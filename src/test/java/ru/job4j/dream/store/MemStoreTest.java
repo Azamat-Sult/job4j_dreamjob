@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 
 public class MemStoreTest {
 
-    @Test
+    /*@Test
     public void whenSaveUserThenFindByEmailDone() {
         Store store = MemStore.instOf();
         User user1 = new User(0, "User1", "user1@mail.ru", "password");
@@ -21,5 +21,5 @@ public class MemStoreTest {
         User user2 = new User(0, "User2", "user2@mail.ru", "password");
         store.saveUser(user2);
         assertNull(store.findUserByEmail("some@mail"));
-    }
+    }*/
 }
