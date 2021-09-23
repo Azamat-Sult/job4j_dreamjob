@@ -7,24 +7,45 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+        function validate() {
+            let result = '';
+            if ($('#username').val() == '') {
+                result = result + $('#username').attr('title') + '\n';
+            }
+            if ($('#usersurname').val() == '') {
+                result = result + $('#usersurname').attr('title') + '\n';
+            }
+            if (document.getElementById("inlineRadio1").checked === false
+                && document.getElementById("inlineRadio2").checked === false) {
+                result = result + 'Выберите пол' + '\n';
+            }
+            if ($('#description').val() == '') {
+                result = result + 'Добавьте описание' + '\n';
+            }
+            if (result != '') {
+                alert(result);
+                return false
+            }
+            return true;
+        }
+    </script>
 </head>
 <body>
 
 <div class="container-fluid">
     <form>
         <div class="form-group">
-            <label>Имя</label>
-            <input type="text" class="form-control" name="name">
+            <label for="username">Имя</label>
+            <input type="text" class="form-control" title="Введите имя пользователя" id="username">
         </div>
         <div class="form-group">
-            <label>Фамилия</label>
-            <input type="text" class="form-control" name="surname">
+            <label for="usersurname">Фамилия</label>
+            <input type="text" class="form-control" title="Введите фамилию пользователя" id="usersurname">
         </div>
         <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="male">
             <label class="form-check-label" for="inlineRadio1">М</label>
-        </div>
-        <div class="form-check form-check-inline">
             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="female">
             <label class="form-check-label" for="inlineRadio2">Ж</label>
         </div>
@@ -32,7 +53,7 @@
             <label for="description">Описание</label>
             <textarea class="form-control" id="description" rows="3"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-default" onclick="return validate();">Submit</button>
     </form>
     <table class="table table-hover">
         <thead>
