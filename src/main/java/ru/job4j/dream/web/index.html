@@ -32,11 +32,17 @@
     </script>
     <script>
         function addRow() {
-            //получаем значение поля usr
-            const name = $('#username').val();
-            //получаем ссылку на последний элемент в таблице.
-            //и после него добавляем html
-            $('#table tr:last').after('<tr><td>' + name +'</td></tr>');
+            if (validate() === true) {
+                const name = $('#username').val();
+                const usersurname = $('#usersurname').val();
+                const description = $('#description').val();
+                $('#table tr:last').after('<tr>' +
+                    '<th>N</th>' +
+                    '<td>' + name +'</td>' +
+                    '<td>' + usersurname +'</td>' +
+                    '<td>' + description +'</td>' +
+                    '</tr>');
+            }
         }
     </script>
 </head>
