@@ -1,8 +1,9 @@
 <!DOCTYPE web-app PUBLIC
- "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
- "http://java.sun.com/dtd/web-app_2_3.dtd" >
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
+
   <display-name>Archetype Created Web Application</display-name>
 
   <servlet>
@@ -45,6 +46,10 @@
         <servlet-name>GreetingServlet</servlet-name>
         <servlet-class>ru.job4j.dream.servlet.GreetingServlet</servlet-class>
     </servlet>
+  <servlet>
+    <servlet-name>CityServlet</servlet-name>
+    <servlet-class>ru.job4j.dream.servlet.CityServlet</servlet-class>
+  </servlet>
 
   <filter>
     <filter-name>AuthFilter</filter-name>
@@ -63,6 +68,12 @@
     <servlet-name>IndexServlet</servlet-name>
     <url-pattern>/index.do</url-pattern>
   </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>IndexServlet</servlet-name>
+    <url-pattern></url-pattern>
+  </servlet-mapping>
+
   <servlet-mapping>
     <servlet-name>DownloadServlet</servlet-name>
     <url-pattern>/download</url-pattern>
@@ -90,6 +101,10 @@
   <servlet-mapping>
     <servlet-name>GreetingServlet</servlet-name>
     <url-pattern>/greet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>CityServlet</servlet-name>
+    <url-pattern>/loadCityList</url-pattern>
   </servlet-mapping>
 
   <filter-mapping>

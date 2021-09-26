@@ -8,7 +8,9 @@ CREATE TABLE if not exists post (
 CREATE TABLE if not exists candidate (
    id SERIAL PRIMARY KEY,
    name TEXT,
-   photo TEXT
+   photo TEXT,
+   cityid int,
+   registered DATE
 );
 
 CREATE TABLE if not exists siteUser (
@@ -16,4 +18,9 @@ CREATE TABLE if not exists siteUser (
    email TEXT UNIQUE,
    name TEXT,
    password TEXT
+);
+
+CREATE TABLE if not exists city (
+   id SERIAL PRIMARY KEY,
+   name TEXT UNIQUE
 );

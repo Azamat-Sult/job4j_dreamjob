@@ -2,6 +2,7 @@ package ru.job4j.dream.store;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import ru.job4j.dream.model.Candidate;
+import ru.job4j.dream.model.City;
 import ru.job4j.dream.model.Post;
 
 import java.io.BufferedReader;
@@ -9,10 +10,7 @@ import java.io.FileReader;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,13 +79,72 @@ public class PsqlStore implements Store {
                 while (it.next()) {
                     candidates.add(new Candidate(it.getInt("id"),
                             it.getString("name"),
-                            it.getString("photo")));
+                            it.getString("photo"),
+                            it.getInt("cityid"),
+                            it.getDate("registered").toLocalDate()));
                 }
             }
         } catch (Exception e) {
             LOG.error("EXCEPTION: ", e);
         }
         return candidates;
+    }
+
+    @Override
+    public Collection<City> findAllCities() {
+        List<City> cities = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement("SELECT * FROM city")) {
+            try (ResultSet it = ps.executeQuery()) {
+                while (it.next()) {
+                    cities.add(new City(it.getInt("id"), it.getString("name")));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("EXCEPTION: ", e);
+        }
+        return cities;
+    }
+
+    @Override
+    public Collection<Post> findLastDayPosts() {
+        List<Post> lastDayPosts = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement(
+                     "SELECT * FROM post WHERE created BETWEEN current_timestamp - interval '1 day' AND current_timestamp")) {
+            try (ResultSet it = ps.executeQuery()) {
+                while (it.next()) {
+                    lastDayPosts.add(new Post(it.getInt("id"),
+                            it.getString("name"),
+                            it.getString("description"),
+                            it.getDate("created").toLocalDate()));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("EXCEPTION: ", e);
+        }
+        return lastDayPosts;
+    }
+
+    @Override
+    public Collection<Candidate> findLastDayCandidates() {
+        List<Candidate> lastDayCandidates = new ArrayList<>();
+        try (Connection cn = pool.getConnection();
+             PreparedStatement ps =  cn.prepareStatement(
+                     "SELECT * FROM Candidate WHERE registered BETWEEN current_timestamp - interval '1 day' AND current_timestamp")) {
+            try (ResultSet it = ps.executeQuery()) {
+                while (it.next()) {
+                    lastDayCandidates.add(new Candidate(it.getInt("id"),
+                            it.getString("name"),
+                            it.getString("photo"),
+                            it.getInt("cityid"),
+                            it.getDate("registered").toLocalDate()));
+                }
+            }
+        } catch (Exception e) {
+            LOG.error("EXCEPTION: ", e);
+        }
+        return lastDayCandidates;
     }
 
     @Override
@@ -145,10 +202,12 @@ public class PsqlStore implements Store {
     private Candidate createCandidate(Candidate candidate) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement(
-                     "INSERT INTO candidate(name,photo) VALUES (?,?)",
+                     "INSERT INTO candidate(name,photo,cityid,registered) VALUES (?,?,?,?)",
                      PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, candidate.getName());
             ps.setString(2, candidate.getPhoto());
+            ps.setInt(3, candidate.getCityId());
+            ps.setObject(4, candidate.getRegistered());
             ps.execute();
             try (ResultSet id = ps.getGeneratedKeys()) {
                 if (id.next()) {
@@ -164,10 +223,12 @@ public class PsqlStore implements Store {
     private void updateCandidate(Candidate candidate) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement(
-                     "UPDATE candidate SET name = ?, photo = ? WHERE id = ?")) {
+                     "UPDATE candidate SET name = ?, photo = ?, cityid = ?, registered = ? WHERE id = ?")) {
             ps.setString(1, candidate.getName());
             ps.setString(2, candidate.getPhoto());
-            ps.setInt(3, candidate.getId());
+            ps.setInt(3, candidate.getCityId());
+            ps.setObject(4, candidate.getRegistered());
+            ps.setInt(5, candidate.getId());
             ps.executeUpdate();
         } catch (Exception e) {
             LOG.error("EXCEPTION: ", e);
@@ -202,7 +263,9 @@ public class PsqlStore implements Store {
                 if (resultSet.next()) {
                     result = new Candidate(resultSet.getInt("id"),
                             resultSet.getString("name"),
-                            resultSet.getString("photo"));
+                            resultSet.getString("photo"),
+                            resultSet.getInt("cityid"),
+                            resultSet.getDate("registered").toLocalDate());
                 }
             }
         } catch (Exception e) {

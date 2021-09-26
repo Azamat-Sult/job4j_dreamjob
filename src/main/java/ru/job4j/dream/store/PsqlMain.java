@@ -13,12 +13,12 @@ public class PsqlMain {
         store.savePost(new Post(0, "Java Job 2", "Java Job 2", LocalDate.now()));
         store.savePost(new Post(0, "Java Job 3", "Java Job 3", LocalDate.now()));
 
-        store.saveCandidate(new Candidate(0, "Candidate 1", "noPhoto.jpg"));
-        store.saveCandidate(new Candidate(0, "Candidate 2", "noPhoto.jpg"));
-        store.saveCandidate(new Candidate(0, "Candidate 3", "noPhoto.jpg"));
+        store.saveCandidate(new Candidate(0, "Candidate 1", 1, LocalDate.now().minusDays(1)));
+        store.saveCandidate(new Candidate(0, "Candidate 2", 2, LocalDate.now().minusDays(2)));
+        store.saveCandidate(new Candidate(0, "Candidate 3", 3, LocalDate.now().minusDays(3)));
 
         store.savePost(new Post(2, "Java Job 2 upd", "Java Job 2 upd", LocalDate.now()));
-        store.saveCandidate(new Candidate(2, "Candidate 2 upd", "noPhoto.jpg"));
+        store.saveCandidate(new Candidate(2, "Candidate 2 upd", 1, LocalDate.now()));
 
         System.out.println(store.findPostById(2));
         System.out.println(store.findCandidateById(2));

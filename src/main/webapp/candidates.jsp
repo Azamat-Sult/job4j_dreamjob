@@ -1,3 +1,5 @@
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="ru.job4j.dream.model.City" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <!doctype html>
@@ -58,6 +60,8 @@
                         <th scope="col">Имя</th>
                         <th scope="col">Фото</th>
                         <th scope="col">Действия с фото</th>
+                        <th scope="col">Город</th>
+                        <th scope="col">Дата регистрации</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -75,6 +79,18 @@
                         <td>
                             <a href='<c:url value="/candidate/PhotoUploadForm.jsp?id=${candidate.id}"/>' class="btn btn-success" role="button">Добавить</a>
                             <a href='<c:url value="/deletePhoto?id=${candidate.id}"/>' class="btn btn-danger" role="button">Удалить</a>
+                        </td>
+                        <td>
+                            <c:set var="cityid" value="${candidate.cityId}" scope="request"/>
+                            <%
+                                int cityid = (int) request.getAttribute("cityid");
+                                ArrayList cities = (ArrayList) request.getAttribute("cities");
+                                City city = (City) cities.get(cityid - 1);
+                            %>
+                            <%=city.getName()%>
+                        </td>
+                        <td>
+                            <c:out value="${candidate.registered}"/>
                         </td>
                     </tr>
                     </c:forEach>
