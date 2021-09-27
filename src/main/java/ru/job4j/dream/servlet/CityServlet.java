@@ -25,9 +25,4 @@ public class CityServlet extends HttpServlet {
         output.flush();
         output.close();
     }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
 }
