@@ -275,7 +275,7 @@ public class PsqlStore implements Store {
     }
 
     @Override
-    public User saveUser(User user) { //upd
+    public User saveUser(User user) {
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement(
                      "INSERT INTO siteuser(email,name,password) VALUES (?,?,?)",
@@ -296,7 +296,7 @@ public class PsqlStore implements Store {
     }
 
     @Override
-    public User findUserByEmail(String userEmail) { //upd
+    public User findUserByEmail(String userEmail) {
         User result = null;
         try (Connection cn = pool.getConnection();
              PreparedStatement ps =  cn.prepareStatement(

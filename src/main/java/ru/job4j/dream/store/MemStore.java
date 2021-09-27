@@ -29,16 +29,16 @@ public class MemStore implements Store {
 
     private final static AtomicInteger USER_ID = new AtomicInteger(0);
 
-    private MemStore() {
-        //posts.put(1, new Post(1, "Junior Java Job", "Junior", LocalDate.now().minusDays(1)));
-        //posts.put(2, new Post(2, "Middle Java Job", "Middle", LocalDate.now().minusDays(2)));
-        //posts.put(3, new Post(3, "Senior Java Job", "Senior", LocalDate.now().minusDays(3)));
-        //Candidate candidate = new Candidate(1, "Junior Java");
-        //candidate.setPhoto("1.jpg");
-        //candidates.put(1, new Candidate(1, "Junior Java"));
-        //candidates.put(1, candidate);
-        //candidates.put(2, new Candidate(2, "Middle Java"));
-        //candidates.put(3, new Candidate(3, "Senior Java"));
+    private void memStoreInit() {
+        posts.put(1, new Post(1, "Junior Java Job", "Junior", LocalDate.now().minusDays(1)));
+        posts.put(2, new Post(2, "Middle Java Job", "Middle", LocalDate.now().minusDays(2)));
+        posts.put(3, new Post(3, "Senior Java Job", "Senior", LocalDate.now().minusDays(3)));
+        Candidate candidate = new Candidate(1, "Junior Java");
+        candidate.setPhoto("1.jpg");
+        candidates.put(1, new Candidate(1, "Junior Java"));
+        candidates.put(1, candidate);
+        candidates.put(2, new Candidate(2, "Middle Java"));
+        candidates.put(3, new Candidate(3, "Senior Java"));
     }
 
     public static MemStore instOf() {

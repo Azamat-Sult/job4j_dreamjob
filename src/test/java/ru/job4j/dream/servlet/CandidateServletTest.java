@@ -17,8 +17,8 @@ import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 
-//@RunWith(PowerMockRunner.class)
-//@PrepareForTest(PsqlStore.class)
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(PsqlStore.class)
 public class CandidateServletTest {
 
     /*@Test
